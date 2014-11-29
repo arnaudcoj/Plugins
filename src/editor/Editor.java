@@ -1,3 +1,10 @@
+package editor;
+/**
+ * @author Nabil Maiz
+ * @author Arnaud Cojez
+ */
+
+
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 
@@ -7,11 +14,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-/**
- * @author Nabil Maiz
- * @author Arnaud Cojez
- */
 
 /**
  * Class defining the Editor
