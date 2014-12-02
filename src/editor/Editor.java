@@ -27,6 +27,7 @@ public class Editor {
 	private JFrame frame;
 	private TextArea textarea;
 	private File file;
+	private boolean saved;
 	private static final String VERSION = "eXditor 0.1.1";
 
 	// Methods
@@ -42,6 +43,7 @@ public class Editor {
 		JScrollPane sp = new JScrollPane(this.textarea);
 		this.frame.add(sp);
 		this.frame.setPreferredSize(new Dimension(500, 300));
+		this.saved = true;
 	}
 
 	/**
@@ -62,9 +64,9 @@ public class Editor {
 		editor.run();
 
 	}
-	
+
 	public void updateTitle() {
-		if(file == null)
+		if (file == null)
 			this.frame.setTitle(Editor.VERSION);
 		else
 			this.frame.setTitle(this.file.getName() + " | " + Editor.VERSION);
@@ -96,6 +98,7 @@ public class Editor {
 					e.printStackTrace();
 				}
 			this.textarea.writeFile(this.file);
+			this.saved = true;
 		}
 	}
 
@@ -114,6 +117,7 @@ public class Editor {
 					e.printStackTrace();
 				}
 			this.textarea.writeFile(this.file);
+			this.saved = true;
 		}
 	}
 
@@ -122,9 +126,12 @@ public class Editor {
 	 */
 	public void open() {
 		this.chooseFile();
-		if (this.file != null)
-			if (this.file.exists())
+		if (this.file != null) {
+			if (this.file.exists()) {
 				this.textarea.readFile(this.file);
+				this.saved = true;
+			}
+		}
 	}
 
 	/**

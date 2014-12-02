@@ -19,9 +19,6 @@ import javax.swing.JTextArea;
 public class TextArea extends JTextArea {
 
 	// Fields
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	// Methods
