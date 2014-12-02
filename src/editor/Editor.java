@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -25,20 +26,21 @@ public class Editor {
 	// Fields
 	private JFrame frame;
 	private TextArea textarea;
+	private File file;
 
 	// Methods
 	/**
 	 * Constructor for the Editor class
 	 */
 	public Editor() {
-		this.frame = new JFrame("eXditor 0.0.4");
+		this.frame = new JFrame("eXditor 0.1");
 		this.frame.addWindowListener(new FermeWindowEvent());
 		this.frame.setLocation(100, 300);
 		this.frame.add(new MenuBar(this), BorderLayout.NORTH);
 		this.textarea = new TextArea();
 		JScrollPane sp = new JScrollPane(this.textarea);
 		this.frame.add(sp);
-		this.frame.setPreferredSize(new Dimension(400, 200));
+		this.frame.setPreferredSize(new Dimension(500, 300));
 	}
 
 	/**
@@ -72,27 +74,51 @@ public class Editor {
 	 * unknown, makes a call to saveAs
 	 */
 	public void save() {
+		if (this.file == null)
+			this.chooseFile();
+		if(!this.file.exists())
+			try {
+				this.file.createNewFile();
+			} catch (IOException e) {
+				System.out.println("erreur lors de la création du fichier" + this.file.getAbsolutePath());
+				e.printStackTrace();
+			}
+		this.textarea.writeFile(this.file);
 	}
 
 	/**
-	 * Asks the user to choose an output file and saves it
+	 * Asks the user to choose an output file and saves to it
 	 */
 	public void saveAs() {
-		System.out.println("to be implemented : saveAs().  Text to save :");
-		System.out.println(this.textarea.getText());
+		this.chooseFile();
+		if(!this.file.exists())
+			try {
+				this.file.createNewFile();
+			} catch (IOException e) {
+				System.out.println("erreur lors de la création du fichier" + this.file.getAbsolutePath());
+				e.printStackTrace();
+			}
+			this.textarea.writeFile(this.file);
 	}
 
 	/**
 	 * Opens an existing file and fills textArea with the content of this file
 	 */
 	public void open() {
+		this.chooseFile();
+		if(this.file.exists())
+			this.textarea.readFile(this.file);
+	}
+
+	/**
+	 * Chooses an existing file or creates one thanks to a FileChooser
+	 */
+	public void chooseFile() {
 		JFileChooser fc = new JFileChooser();
 		int returnVal = fc.showOpenDialog(fc);
 
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			File file = fc.getSelectedFile();
-			this.textarea.openFile(file);
-		}
+		if (returnVal == JFileChooser.APPROVE_OPTION)
+			this.file = fc.getSelectedFile();
 	}
 
 	/**
