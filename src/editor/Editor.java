@@ -6,9 +6,11 @@ package editor;
  */
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
 import editor.component.MenuBar;
 import editor.component.TextArea;
@@ -19,18 +21,22 @@ import editor.component.TextArea;
 public class Editor {
 
 	private JFrame frame;
+	private TextArea textarea;
 
 	/**
 	 * Constructor for the Editor class
 	 */
 	public Editor() {
-		this.frame = new JFrame("eXditor 0.0.2");
+		this.frame = new JFrame("eXditor 0.0.3");
 		this.frame.addWindowListener(new FermeWindowEvent());
 		this.frame.setLocation(100, 300);
-		this.frame.setSize(200, 200);
-		this.frame.add(new MenuBar(), BorderLayout.NORTH);
-		this.frame.add(new TextArea());
+		this.frame.add(new MenuBar(this), BorderLayout.NORTH);
+		this.textarea = new TextArea();
+		JScrollPane sp = new JScrollPane(this.textarea);
+		this.frame.add(sp);
+		this.frame.setPreferredSize(new Dimension(400, 200));
 	}
+
 	/**
 	 * Runs the Application until the user stops it
 	 */
@@ -51,6 +57,13 @@ public class Editor {
 	}
 
 	/**
+	 * 
+	 */
+	public void reset() {
+		this.textarea.setText(null);
+	}
+
+	/**
 	 * Internal Class used to manage the app closing when the user closes the
 	 * window
 	 */
@@ -59,6 +72,5 @@ public class Editor {
 			System.exit(0);
 		}
 	}
-
 
 }

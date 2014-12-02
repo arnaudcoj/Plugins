@@ -1,6 +1,8 @@
 package editor.component;
 import javax.swing.JMenuBar;
 
+import editor.Editor;
+
 
 /**
  * 
@@ -19,9 +21,9 @@ public class MenuBar extends JMenuBar {
 	/**
 	 * Constructor for the MenuBar class
 	 */
-	public MenuBar() {
+	public MenuBar(Editor editor) {
 		super();
-		this.add(new FileMenu());
+		this.add(new FileMenu(editor));
 		this.add(new ToolsMenu());
 		this.add(new HelpMenu());
 	}

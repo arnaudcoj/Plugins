@@ -12,6 +12,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
+import editor.Editor;
+
 
 /**
  * Class defining the 
@@ -26,9 +28,11 @@ public class FileMenu extends JMenu {
 	/**
 	 * Constructor for the FileMenu class
 	 */
-	public FileMenu() {
+	public FileMenu(Editor editor) {
 		super("File");
-		this.add(new JMenuItem("New"));
+		JMenuItem newFile = new JMenuItem("New");
+		newFile.addActionListener(new NewFileEvent(editor));
+		this.add(newFile);
 		this.add(new JMenuItem("Save"));
 		this.add(new JMenuItem("Save As..."));
 		this.add(new JMenuItem("Open..."));
@@ -53,6 +57,43 @@ public class FileMenu extends JMenu {
 		 */
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent
+		 * )
+		 */
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			// Nothing to do there
+		}
+	}
+	
+	/**
+	 * Internal Class used to manage the app reset when the user chooses the
+	 * New item in the Menu
+	 */
+	class NewFileEvent implements ActionListener, ItemListener {
+
+		private Editor editor;
+		
+		public NewFileEvent(Editor editor) {
+			this.editor = editor;
+		}
+
+		
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
+		 * )
+		 */
+		public void actionPerformed(ActionEvent e) {
+			this.editor.reset();
 		}
 
 		/*
