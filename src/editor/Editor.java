@@ -8,7 +8,13 @@ package editor;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
@@ -29,7 +35,7 @@ public class Editor {
 	 * Constructor for the Editor class
 	 */
 	public Editor() {
-		this.frame = new JFrame("eXditor 0.0.3");
+		this.frame = new JFrame("eXditor 0.0.4");
 		this.frame.addWindowListener(new FermeWindowEvent());
 		this.frame.setLocation(100, 300);
 		this.frame.add(new MenuBar(this), BorderLayout.NORTH);
@@ -70,8 +76,6 @@ public class Editor {
 	 * unknown, makes a call to saveAs
 	 */
 	public void save() {
-		System.out.println("to be implemented : save().  Text to save :");
-		System.out.println(this.textarea.getText());
 	}
 
 	/**
@@ -86,7 +90,23 @@ public class Editor {
 	 * Opens an existing file and fills textArea with the content of this file
 	 */
 	public void open() {
-		System.out.println("to be implemented : open()");
+		JFileChooser fc = new JFileChooser();
+		int returnVal = fc.showOpenDialog(fc);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File file = fc.getSelectedFile();
+			BufferedReader reader;
+			try {
+				reader = new BufferedReader(new FileReader(file));
+				this.textarea.read(reader, null);
+			} catch (FileNotFoundException e) {
+				System.err.println("Le fichier est introuvable");
+				e.printStackTrace();
+			} catch (IOException e) {
+				System.err.println("Erreur lors de l'ouverture du fichier");
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
