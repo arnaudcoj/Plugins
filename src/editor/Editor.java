@@ -54,17 +54,6 @@ public class Editor {
 		this.frame.setVisible(true);
 	}
 
-	/**
-	 * Main method of the editor
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Editor editor = new Editor();
-		editor.run();
-
-	}
-
 	public void updateTitle() {
 		if (file == null)
 			this.frame.setTitle(Editor.VERSION);
@@ -154,5 +143,16 @@ public class Editor {
 		public void windowClosing(java.awt.event.WindowEvent e) {
 			System.exit(0);
 		}
+	}
+	
+	/**
+	 * Main method of the editor
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Editor editor = new Editor();
+		editor.run();
+
 	}
 }
