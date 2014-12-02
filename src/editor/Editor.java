@@ -27,13 +27,14 @@ public class Editor {
 	private JFrame frame;
 	private TextArea textarea;
 	private File file;
+	private static final String VERSION = "eXditor 0.1.1";
 
 	// Methods
 	/**
 	 * Constructor for the Editor class
 	 */
 	public Editor() {
-		this.frame = new JFrame("eXditor 0.1");
+		this.frame = new JFrame(Editor.VERSION);
 		this.frame.addWindowListener(new FermeWindowEvent());
 		this.frame.setLocation(100, 300);
 		this.frame.add(new MenuBar(this), BorderLayout.NORTH);
@@ -61,12 +62,21 @@ public class Editor {
 		editor.run();
 
 	}
+	
+	public void updateTitle() {
+		if(file == null)
+			this.frame.setTitle(Editor.VERSION);
+		else
+			this.frame.setTitle(this.file.getName() + " | " + Editor.VERSION);
+	}
 
 	/**
 	 * Resets the editor to work on a new Document
 	 */
 	public void reset() {
 		this.textarea.setText(null);
+		this.file = null;
+		this.updateTitle();
 	}
 
 	/**
@@ -76,14 +86,17 @@ public class Editor {
 	public void save() {
 		if (this.file == null)
 			this.chooseFile();
-		if(!this.file.exists())
-			try {
-				this.file.createNewFile();
-			} catch (IOException e) {
-				System.out.println("erreur lors de la création du fichier" + this.file.getAbsolutePath());
-				e.printStackTrace();
-			}
-		this.textarea.writeFile(this.file);
+		if (this.file != null) {
+			if (!this.file.exists())
+				try {
+					this.file.createNewFile();
+				} catch (IOException e) {
+					System.out.println("erreur lors de la création du fichier"
+							+ this.file.getAbsolutePath());
+					e.printStackTrace();
+				}
+			this.textarea.writeFile(this.file);
+		}
 	}
 
 	/**
@@ -91,14 +104,17 @@ public class Editor {
 	 */
 	public void saveAs() {
 		this.chooseFile();
-		if(!this.file.exists())
-			try {
-				this.file.createNewFile();
-			} catch (IOException e) {
-				System.out.println("erreur lors de la création du fichier" + this.file.getAbsolutePath());
-				e.printStackTrace();
-			}
+		if (this.file != null) {
+			if (!this.file.exists())
+				try {
+					this.file.createNewFile();
+				} catch (IOException e) {
+					System.out.println("erreur lors de la création du fichier"
+							+ this.file.getAbsolutePath());
+					e.printStackTrace();
+				}
 			this.textarea.writeFile(this.file);
+		}
 	}
 
 	/**
@@ -106,8 +122,9 @@ public class Editor {
 	 */
 	public void open() {
 		this.chooseFile();
-		if(this.file.exists())
-			this.textarea.readFile(this.file);
+		if (this.file != null)
+			if (this.file.exists())
+				this.textarea.readFile(this.file);
 	}
 
 	/**
@@ -119,6 +136,7 @@ public class Editor {
 
 		if (returnVal == JFileChooser.APPROVE_OPTION)
 			this.file = fc.getSelectedFile();
+		this.updateTitle();
 	}
 
 	/**
