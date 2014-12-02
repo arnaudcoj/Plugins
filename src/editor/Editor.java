@@ -8,11 +8,7 @@ package editor;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -95,17 +91,7 @@ public class Editor {
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
-			BufferedReader reader;
-			try {
-				reader = new BufferedReader(new FileReader(file));
-				this.textarea.read(reader, null);
-			} catch (FileNotFoundException e) {
-				System.err.println("Le fichier est introuvable");
-				e.printStackTrace();
-			} catch (IOException e) {
-				System.err.println("Erreur lors de l'ouverture du fichier");
-				e.printStackTrace();
-			}
+			this.textarea.openFile(file);
 		}
 	}
 
