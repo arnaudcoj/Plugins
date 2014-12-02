@@ -15,6 +15,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import plugins.ConfigurableTimer;
+import plugins.PluginFinder;
 import editor.component.MenuBar;
 import editor.component.TextArea;
 
@@ -28,7 +30,9 @@ public class Editor {
 	private TextArea textarea;
 	private File file;
 	private boolean saved;
-	private static final String VERSION = "eXditor 0.1.1";
+	private static final String VERSION = "eXditor 0.1.2";
+	private final File dropins = new File("./dropins");
+	private final PluginFinder finder = new PluginFinder(dropins);
 
 	// Methods
 	/**
@@ -44,6 +48,8 @@ public class Editor {
 		this.frame.add(sp);
 		this.frame.setPreferredSize(new Dimension(500, 300));
 		this.saved = true;
+		if(!this.dropins.exists())
+			this.dropins.mkdir();
 	}
 
 	/**
@@ -52,6 +58,8 @@ public class Editor {
 	public void run() {
 		this.frame.pack();
 		this.frame.setVisible(true);
+		this.finder.start();
+		
 	}
 
 	public void updateTitle() {

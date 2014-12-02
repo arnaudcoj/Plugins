@@ -47,7 +47,7 @@ public class ConfigurableTimer implements java.awt.event.ActionListener {
 		timer.start();
 		
 		while(maxIteration ==0 || nbIterations <maxIteration){
-			System.out.println(" ");
+			//System.out.println("refresh plugins directory : " + this.nbIterations);
 		}
 		
 		timer.stop();
