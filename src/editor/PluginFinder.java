@@ -4,7 +4,7 @@
 package editor;
 
 /**
- * Class defining the 
+ * Class defining the Plugin Finder
  */
 public class PluginFinder {
 

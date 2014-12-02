@@ -20,9 +20,11 @@ import editor.component.TextArea;
  */
 public class Editor {
 
+	// Fields
 	private JFrame frame;
 	private TextArea textarea;
 
+	// Methods
 	/**
 	 * Constructor for the Editor class
 	 */
@@ -57,10 +59,34 @@ public class Editor {
 	}
 
 	/**
-	 * 
+	 * Resets the editor to work on a new Document
 	 */
 	public void reset() {
 		this.textarea.setText(null);
+	}
+
+	/**
+	 * Saves the Document to the output if it is known. If the output file is
+	 * unknown, makes a call to saveAs
+	 */
+	public void save() {
+		System.out.println("to be implemented : save().  Text to save :");
+		System.out.println(this.textarea.getText());
+	}
+
+	/**
+	 * Asks the user to choose an output file and saves it
+	 */
+	public void saveAs() {
+		System.out.println("to be implemented : saveAs().  Text to save :");
+		System.out.println(this.textarea.getText());
+	}
+
+	/**
+	 * Opens an existing file and fills textArea with the content of this file
+	 */
+	public void open() {
+		System.out.println("to be implemented : open()");
 	}
 
 	/**
@@ -72,5 +98,4 @@ public class Editor {
 			System.exit(0);
 		}
 	}
-
 }
