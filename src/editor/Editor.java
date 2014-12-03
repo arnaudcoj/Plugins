@@ -15,7 +15,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
-import plugins.ConfigurableTimer;
 import plugins.PluginFinder;
 import editor.component.MenuBar;
 import editor.component.TextArea;
@@ -30,7 +29,7 @@ public class Editor {
 	private TextArea textarea;
 	private File file;
 	private boolean saved;
-	private static final String VERSION = "eXditor 0.1.2";
+	private static final String VERSION = "eXditor 0.1.3";
 	private final File dropins = new File("./dropins");
 	private final PluginFinder finder = new PluginFinder(dropins);
 
@@ -39,17 +38,18 @@ public class Editor {
 	 * Constructor for the Editor class
 	 */
 	public Editor() {
-		this.frame = new JFrame(Editor.VERSION);
+		this.frame = new JFrame();
 		this.frame.addWindowListener(new FermeWindowEvent());
 		this.frame.setLocation(100, 300);
 		this.frame.add(new MenuBar(this), BorderLayout.NORTH);
-		this.textarea = new TextArea();
+		this.textarea = new TextArea(this);
 		JScrollPane sp = new JScrollPane(this.textarea);
 		this.frame.add(sp);
 		this.frame.setPreferredSize(new Dimension(500, 300));
 		this.saved = true;
-		if(!this.dropins.exists())
+		if (!this.dropins.exists())
 			this.dropins.mkdir();
+		this.updateTitle();
 	}
 
 	/**
@@ -59,14 +59,21 @@ public class Editor {
 		this.frame.pack();
 		this.frame.setVisible(true);
 		this.finder.start();
-		
+
 	}
 
 	public void updateTitle() {
-		if (file == null)
-			this.frame.setTitle(Editor.VERSION);
+		StringBuilder sb = new StringBuilder();
+		if (!this.saved)
+			sb.append('*');
+		if (this.file == null)
+			sb.append("untitled");
 		else
-			this.frame.setTitle(this.file.getName() + " | " + Editor.VERSION);
+			sb.append(this.file.getName());
+		sb.append(" | ");
+		sb.append(Editor.VERSION);
+		this.frame.setTitle(sb.toString());
+		System.out.println("updated");
 	}
 
 	/**
@@ -75,6 +82,7 @@ public class Editor {
 	public void reset() {
 		this.textarea.setText(null);
 		this.file = null;
+		this.saved = true;
 		this.updateTitle();
 	}
 
@@ -97,6 +105,7 @@ public class Editor {
 			this.textarea.writeFile(this.file);
 			this.saved = true;
 		}
+		this.updateTitle();
 	}
 
 	/**
@@ -116,6 +125,7 @@ public class Editor {
 			this.textarea.writeFile(this.file);
 			this.saved = true;
 		}
+		this.updateTitle();
 	}
 
 	/**
@@ -129,6 +139,7 @@ public class Editor {
 				this.saved = true;
 			}
 		}
+		this.updateTitle();
 	}
 
 	/**
@@ -140,6 +151,13 @@ public class Editor {
 
 		if (returnVal == JFileChooser.APPROVE_OPTION)
 			this.file = fc.getSelectedFile();
+	}
+
+	/**
+	 * Sets [saved] to false
+	 */
+	public void setNotSaved() {
+		this.saved = false;
 		this.updateTitle();
 	}
 
@@ -152,7 +170,7 @@ public class Editor {
 			System.exit(0);
 		}
 	}
-	
+
 	/**
 	 * Main method of the editor
 	 * 

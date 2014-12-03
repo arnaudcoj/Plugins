@@ -12,6 +12,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.JTextArea;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import editor.Editor;
 
 /**
  * Class defining the Text Area
@@ -20,14 +24,17 @@ public class TextArea extends JTextArea {
 
 	// Fields
 	private static final long serialVersionUID = 1L;
+	private Editor editor;
 
 	// Methods
 	/**
 	 * Constructor for the TextArea class
 	 */
-	public TextArea() {
+	public TextArea(Editor editor) {
 		super();
+		this.editor = editor;
 		this.setLineWrap(true);
+		this.getDocument().addDocumentListener(new ChangedDocumentListener(this.editor));
 	}
 
 	public void readFile(File file) {
@@ -35,6 +42,7 @@ public class TextArea extends JTextArea {
 		try {
 			reader = new BufferedReader(new FileReader(file));
 			this.read(reader, null);
+			this.getDocument().addDocumentListener(new ChangedDocumentListener(this.editor));
 		} catch (FileNotFoundException e) {
 			System.err.println("Le fichier est introuvable");
 			e.printStackTrace();
@@ -50,9 +58,34 @@ public class TextArea extends JTextArea {
 			writer = new BufferedWriter(new FileWriter(file));
 			this.write(writer);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	public class ChangedDocumentListener implements DocumentListener {
+
+		
+		private Editor editor;
+
+		public ChangedDocumentListener(Editor editor) {
+			this.editor = editor;
+		}
+
+		@Override
+		public void changedUpdate(DocumentEvent arg0) {
+			this.editor.setNotSaved();
+			
+		}
+
+		@Override
+		public void insertUpdate(DocumentEvent arg0) {
+			this.editor.setNotSaved();
+		}
+
+		@Override
+		public void removeUpdate(DocumentEvent arg0) {
+			this.editor.setNotSaved();
+		}
+		
+	}
 }
