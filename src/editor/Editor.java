@@ -58,7 +58,6 @@ public class Editor {
 	public void run() {
 		this.frame.pack();
 		this.frame.setVisible(true);
-		this.finder.actionPerformed(e)
 
 	}
 
@@ -179,5 +178,19 @@ public class Editor {
 		Editor editor = new Editor();
 		editor.run();
 
+	}
+
+	/**
+	 * @return
+	 */
+	public String getSelectedText() {
+		return this.textarea.getSelectedText();
+	}
+
+	/**
+	 * @param transform
+	 */
+	public void replaceSelection(String transform) {
+		this.textarea.replaceSelection(transform);		
 	}
 }
