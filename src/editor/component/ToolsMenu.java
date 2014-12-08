@@ -7,6 +7,7 @@ import java.io.File;
 
 import javax.swing.JMenu;
 
+import plugins.PluginFilter;
 import plugins.PluginFinder;
 
 /**
@@ -16,6 +17,8 @@ public class ToolsMenu extends JMenu {
 
 	private final File dropins = new File("./dropins");
 	private final PluginFinder finder = new PluginFinder(dropins);
+	private final PluginFilter filter = new PluginFilter();
+	
 	// Fields
 	/**
 	 * 
@@ -32,6 +35,4 @@ public class ToolsMenu extends JMenu {
 			this.dropins.mkdir();
 	}
 	
-	public void update() {
-	}
 }
