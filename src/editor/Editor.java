@@ -13,11 +13,16 @@ import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 
+import plugins.PluginEventListener;
 import plugins.PluginFinder;
-import editor.component.MenuBar;
+import editor.component.FileMenu;
+import editor.component.HelpMenu;
 import editor.component.TextArea;
+import editor.component.ToolsMenu;
 
 /**
  * Class defining the Editor
@@ -38,13 +43,31 @@ public class Editor {
 	 * Constructor for the Editor class
 	 */
 	public Editor() {
+
+		JMenuBar menubar = new JMenuBar();
+		JMenu tools = new ToolsMenu(this);
 		this.frame = new JFrame();
 		this.frame.addWindowListener(new FermeWindowEvent());
 		this.frame.setLocation(100, 300);
-		this.frame.add(new MenuBar(this), BorderLayout.NORTH);
+
+		/* Barre de Menus */
+		this.frame.add(menubar, BorderLayout.NORTH);
+
+		/* Menu File */
+		menubar.add(new FileMenu(this));
+
+		/* Menu Tools */
+		this.finder.addListener((PluginEventListener) tools);
+		menubar.add(tools);
+
+		/* Menu Help */
+		menubar.add(new HelpMenu());
+
+		/* TextArea */
 		this.textarea = new TextArea(this);
 		JScrollPane sp = new JScrollPane(this.textarea);
 		this.frame.add(sp);
+
 		this.frame.setPreferredSize(new Dimension(500, 300));
 		this.saved = false;
 		if (!this.dropins.exists())
@@ -58,7 +81,7 @@ public class Editor {
 	public void run() {
 		this.frame.pack();
 		this.frame.setVisible(true);
-
+		this.finder.start();
 	}
 
 	public void updateTitle() {
@@ -191,6 +214,6 @@ public class Editor {
 	 * @param transform
 	 */
 	public void replaceSelection(String transform) {
-		this.textarea.replaceSelection(transform);		
+		this.textarea.replaceSelection(transform);
 	}
 }

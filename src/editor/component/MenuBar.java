@@ -20,9 +20,6 @@ public class MenuBar extends JMenuBar {
 	 */
 	public MenuBar(Editor editor) {
 		super();
-		this.add(new FileMenu(editor));
-		this.add(new ToolsMenu());
-		this.add(new HelpMenu());
 	}
 
 }

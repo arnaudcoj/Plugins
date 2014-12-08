@@ -17,35 +17,22 @@ import editor.Editor;
 /**
  * Class defining the Tools Menu
  */
-public class ToolsMenu extends JMenu {
-	// Fields
-	private static final long serialVersionUID = 1L;
+	public class ToolsMenu extends JMenu implements PluginEventListener {
 
-	// Methods
-	/**
-	 * Constructor for the ToolsMenu class
-	 */
-	public ToolsMenu() {
-		super("Tools");
-	}
-
-	// ############################################################################################
-	public class ToolsMenuListener implements PluginEventListener {
+		private static final long serialVersionUID = 1L;
 		private Editor editor;
-		private ToolsMenu toolsMenu;
 
-		public ToolsMenuListener(Editor editor, ToolsMenu toolsMenu) {
+		public ToolsMenu(Editor editor) {
+			super("Tools");
 			this.editor = editor;
-			this.toolsMenu = toolsMenu;
 		}
 
 		@Override
 		public void pluginAdded(PluginAddedEvent plugin) {
 			JMenuItem menuItem = new JMenuItem(plugin.getLabel());
 			menuItem.addActionListener(new ToolListener(plugin, this.editor));
-			this.toolsMenu.add(menuItem);
+			this.add(menuItem);
 		}
-	}
 
 	// ############################################################################################
 	public class ToolListener implements ActionListener {
