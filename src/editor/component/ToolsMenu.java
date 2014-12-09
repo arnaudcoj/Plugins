@@ -9,9 +9,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import plugins.Plugin;
-import plugins.PluginAddedEvent;
-import plugins.PluginEventListener;
+import plugin.Plugin;
+import plugin.PluginAddedEvent;
+import plugin.PluginEventListener;
 import editor.Editor;
 
 /**
@@ -34,7 +34,6 @@ import editor.Editor;
 			this.add(menuItem);
 		}
 
-	// ############################################################################################
 	public class ToolListener implements ActionListener {
 
 		private Editor editor;

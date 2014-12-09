@@ -1,4 +1,4 @@
-package plugins;
+package plugin;
 
 public class ToUpperPlugin implements Plugin {
 	@Override

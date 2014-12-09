@@ -15,10 +15,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
-import plugins.PluginEventListener;
-import plugins.PluginFinder;
+import plugin.PluginEventListener;
+import plugin.PluginFinder;
 import editor.component.FileMenu;
 import editor.component.HelpMenu;
 import editor.component.TextArea;
@@ -46,6 +47,7 @@ public class Editor {
 
 		JMenuBar menubar = new JMenuBar();
 		JMenu tools = new ToolsMenu(this);
+		JMenu helpMenu = new HelpMenu(this);
 		this.frame = new JFrame();
 		this.frame.addWindowListener(new FermeWindowEvent());
 		this.frame.setLocation(100, 300);
@@ -61,7 +63,8 @@ public class Editor {
 		menubar.add(tools);
 
 		/* Menu Help */
-		menubar.add(new HelpMenu());
+		this.finder.addListener((PluginEventListener) helpMenu);
+		menubar.add(helpMenu);
 
 		/* TextArea */
 		this.textarea = new TextArea(this);
@@ -215,5 +218,9 @@ public class Editor {
 	 */
 	public void replaceSelection(String transform) {
 		this.textarea.replaceSelection(transform);
+	}
+
+	public void confirm(String label, String helpMessage) {
+		JOptionPane.showMessageDialog(this.frame, helpMessage, label, JOptionPane.INFORMATION_MESSAGE);
 	}
 }

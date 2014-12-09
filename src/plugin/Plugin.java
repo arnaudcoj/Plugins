@@ -1,10 +1,10 @@
-package plugins;
+package plugin;
 
 
 /**
- * represents a plugin that can be dynamiccaly added to the extendable editor.
+ * represents a plugin that can be dynamically added to the extendable editor.
  * A plugin can perform a transformation on a String.
- * A menu item corresponds to a a plugin in the editor. The label of this item is given by the <code>getLabel</code> methid.
+ * A menu item corresponds to a a plugin in the editor. The label of this item is given by the <code>getLabel</code> method.
  * @author JC
  */
 public interface Plugin {
@@ -22,8 +22,8 @@ public interface Plugin {
 	 */
 	public String getLabel() ;
 	
-	/** a help message describing the plugin tranformation operation
-	 * @return a help message describing the plugin tranformation operation
+	/** a help message describing the plugin transformation operation
+	 * @return a help message describing the plugin transformation operation
 	 */
 	public String helpMessage();
 

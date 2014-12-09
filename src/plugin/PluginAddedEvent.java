@@ -1,21 +1,26 @@
-package plugins;
+package plugin;
 
 import java.io.File;
+
+import plugin.Plugin;
 
 public class PluginAddedEvent implements Plugin {
 	private File file;
 	protected Plugin instance;
 
 	public PluginAddedEvent(File file) {
+		ClassLoader loader = new PluginLoader();
+		Class<?> plugin;
 		if (file != null)
 			if (file.exists())
 				this.file = file;
-		Class<?> classTest;
 		try {
-			classTest = Class.forName("plugins."
-					+ file.getName().replaceFirst("\\.class$", ""));
-			//classTest = Class.forName("plugins.ToLowerCase");
-			this.instance = (Plugin) classTest.newInstance();
+			String pluginName = "plugins."
+					+ file.getName().replaceFirst("\\.class$", "");
+			
+			plugin = loader.loadClass(pluginName);
+			
+			this.instance = (Plugin) plugin.newInstance();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -40,4 +45,9 @@ public class PluginAddedEvent implements Plugin {
 	public String helpMessage() {
 		return this.instance.helpMessage();
 	}
+	
+	public class PluginLoader extends ClassLoader {
+		
+	}
+	
 }
