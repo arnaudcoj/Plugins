@@ -35,7 +35,7 @@ public class Editor {
 	private TextArea textarea;
 	private File file;
 	private boolean saved;
-	private static final String VERSION = "eXditor 0.1.3";
+	private static final String VERSION = "eXditor 1.0";
 	private final File dropins = new File("./dropins/plugins");
 	private final PluginFinder finder = new PluginFinder(dropins);
 
@@ -72,7 +72,7 @@ public class Editor {
 		this.frame.add(sp);
 
 		this.frame.setPreferredSize(new Dimension(500, 300));
-		this.saved = false;
+		this.saved = true;
 		if (!this.dropins.exists())
 			this.dropins.mkdir();
 		this.updateTitle();
@@ -106,7 +106,7 @@ public class Editor {
 	public void reset() {
 		this.textarea.setText(null);
 		this.file = null;
-		this.saved = false;
+		this.saved = true;
 		this.updateTitle();
 	}
 
