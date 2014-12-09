@@ -27,6 +27,8 @@ import editor.component.ToolsMenu;
 
 /**
  * Class defining the Editor
+ * @author Nabil Maiz
+ * @author Arnaud Cojez
  */
 public class Editor {
 
@@ -40,6 +42,7 @@ public class Editor {
 	private final PluginFinder finder = new PluginFinder(dropins);
 
 	// Methods
+	
 	/**
 	 * Constructor for the Editor class
 	 */
@@ -49,10 +52,10 @@ public class Editor {
 		JMenu tools = new ToolsMenu(this);
 		JMenu helpMenu = new HelpMenu(this);
 		this.frame = new JFrame();
-		this.frame.addWindowListener(new FermeWindowEvent());
+		this.frame.addWindowListener(new CloseWindowEvent());
 		this.frame.setLocation(100, 300);
 
-		/* Barre de Menus */
+		/* Menu Bar*/
 		this.frame.add(menubar, BorderLayout.NORTH);
 
 		/* Menu File */
@@ -87,6 +90,9 @@ public class Editor {
 		this.finder.start();
 	}
 
+	/**
+	 * Updates the title of the window
+	 */
 	public void updateTitle() {
 		StringBuilder sb = new StringBuilder();
 		if (!this.saved)
@@ -189,7 +195,7 @@ public class Editor {
 	 * Internal Class used to manage the app closing when the user closes the
 	 * window
 	 */
-	class FermeWindowEvent extends WindowAdapter {
+	class CloseWindowEvent extends WindowAdapter {
 		public void windowClosing(java.awt.event.WindowEvent e) {
 			System.exit(0);
 		}
@@ -207,20 +213,27 @@ public class Editor {
 	}
 
 	/**
-	 * @return
+	 * Returns the text selected in the TextArea
+	 * @return the text selected in the TextArea
 	 */
 	public String getSelectedText() {
 		return this.textarea.getSelectedText();
 	}
 
 	/**
-	 * @param transform
+	 * Replaces the text selected in the TextArea by <code>transform</code>
+	 * @param transform the text to write
 	 */
 	public void replaceSelection(String transform) {
 		this.textarea.replaceSelection(transform);
 	}
 
-	public void confirm(String label, String helpMessage) {
-		JOptionPane.showMessageDialog(this.frame, helpMessage, label, JOptionPane.INFORMATION_MESSAGE);
+	/**
+	 * Shows a confirm message with a title
+	 * @param title
+	 * @param message
+	 */
+	public void confirm(String title, String message) {
+		JOptionPane.showMessageDialog(this.frame, message, title, JOptionPane.INFORMATION_MESSAGE);
 	}
 }

@@ -1,5 +1,6 @@
 /**
- * 
+ * @author Nabil Maiz
+ * @author Arnaud Cojez
  */
 package editor.component;
 
@@ -16,18 +17,22 @@ import editor.Editor;
 
 /**
  * Class defining the File Menu
+ * 
+ * @author Nabil Maiz
+ * @author Arnaud Cojez
  */
 public class FileMenu extends JMenu {
 
-	//Fields
-	/**
-	 * 
-	 */
+	// Fields
 	private static final long serialVersionUID = 1L;
 
-	//Methods
+	// Methods
+
 	/**
 	 * Constructor for the FileMenu class
+	 * 
+	 * @param editor
+	 *            the Editor which is the main window class
 	 */
 	public FileMenu(Editor editor) {
 		super("File");
@@ -42,7 +47,7 @@ public class FileMenu extends JMenu {
 		JMenuItem saveAs = new JMenuItem("Save As...");
 		saveAs.addActionListener(new SaveAsFileEvent(editor));
 		this.add(saveAs);
-		
+
 		JMenuItem open = new JMenuItem("Open...");
 		open.addActionListener(new OpenFileEvent(editor));
 		this.add(open);
@@ -88,8 +93,18 @@ public class FileMenu extends JMenu {
 	 */
 	class NewFileEvent implements ActionListener, ItemListener {
 
+		// Fields
+		
 		private Editor editor;
 
+		// Methods 
+		
+		/**
+		 * Constructor for the NewFileEvent class
+		 * 
+		 * @param editor
+		 *            the Editor which is the main window class
+		 * */
 		public NewFileEvent(Editor editor) {
 			this.editor = editor;
 		}
@@ -124,8 +139,19 @@ public class FileMenu extends JMenu {
 	 */
 	class SaveFileEvent implements ActionListener, ItemListener {
 
+		// Fields
+		
 		private Editor editor;
 
+		// Methods
+		
+		/**
+		 * 
+		 * Constructor for the SaveFileEvent class
+		 * 
+		 * @param editor
+		 *            the Editor which is the main window class
+		 */
 		public SaveFileEvent(Editor editor) {
 			this.editor = editor;
 		}
@@ -160,8 +186,18 @@ public class FileMenu extends JMenu {
 	 */
 	class SaveAsFileEvent implements ActionListener, ItemListener {
 
+		// Fields
+		
 		private Editor editor;
 
+		//Methods
+		
+		/**
+		 * Constructor for the SaveAsFileEvent class
+		 * 
+		 * @param editor
+		 *            the Editor which is the main window class
+		 */
 		public SaveAsFileEvent(Editor editor) {
 			this.editor = editor;
 		}
@@ -196,8 +232,18 @@ public class FileMenu extends JMenu {
 	 */
 	class OpenFileEvent implements ActionListener, ItemListener {
 
+		//Fields
+		
 		private Editor editor;
 
+		// Methods
+		
+		/**
+		 * Constructor for the OpenFileEvent class
+		 * 
+		 * @param editor
+		 *            the Editor which is the main window class
+		 */
 		public OpenFileEvent(Editor editor) {
 			this.editor = editor;
 		}

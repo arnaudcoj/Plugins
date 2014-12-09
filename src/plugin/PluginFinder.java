@@ -1,5 +1,6 @@
 /**
- * 
+ * @author Maiz Nabil
+ * @author Cojez Arnaud
  */
 package plugin;
 
@@ -13,56 +14,90 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Class used to Find the plugins
+ * 
  * @author Maiz Nabil
  * @author Cojez Arnaud
  */
 public class PluginFinder implements ActionListener {
 
-	// ATTRIBUTES
+	// Fields
+
 	private static final int REFRESH_INTERVAL_MS = 1000;
 	protected final File directory;
-	protected final List<PluginEventListener> listener = new ArrayList<PluginEventListener>();
+	protected final List<PluginEventListener> listeners = new ArrayList<PluginEventListener>();
 	protected final ConfigurableTimer timer;
 	protected Set<File> knownFiles = new HashSet<File>();
 	protected PluginFilter filter;
-	
-	//CONSTRUCTOR
-	
-	public PluginFinder(File directory){
+
+	// Methods
+
+	/**
+	 * Constructor for the PluginFinder class
+	 * 
+	 * @param directory
+	 *            the directory to search plugins in
+	 */
+	public PluginFinder(File directory) {
 		super();
 		this.directory = directory;
 		this.timer = new ConfigurableTimer(this);
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Set<File> currentFiles = this.listFiles();
 		Set<File> newFiles = new HashSet<File>(currentFiles);
 		newFiles.removeAll(knownFiles);
-		
-		for(File file: newFiles){
+
+		for (File file : newFiles) {
 			notifyListener(file);
 		}
 		knownFiles = currentFiles;
 	}
-	
-	public Set<File> listFiles(){
-		return new HashSet<File>(Arrays.asList(directory.listFiles(filter))); 
+
+	/**
+	 * Returns a Set containing the files in the directory
+	 * 
+	 * @return a Set containing the files in the directory
+	 */
+	public Set<File> listFiles() {
+		return new HashSet<File>(Arrays.asList(directory.listFiles(filter)));
 	}
-	
-	protected void notifyListener(File file){
-		ArrayList <PluginEventListener> listenerCopy;
-		listenerCopy = new ArrayList<PluginEventListener>(listener);
-		for(PluginEventListener listener: listenerCopy){
+
+	/**
+	 * Adds a plugin to the listeners
+	 * 
+	 * @param file
+	 */
+	protected void notifyListener(File file) {
+		ArrayList<PluginEventListener> listenerCopy;
+		listenerCopy = new ArrayList<PluginEventListener>(listeners);
+		for (PluginEventListener listener : listenerCopy) {
 			listener.pluginAdded(new PluginAddedEvent(file));
 		}
 	}
-	
-	public void start(){
+
+	/**
+	 * Starts the timer
+	 */
+	public void start() {
 		timer.start(REFRESH_INTERVAL_MS);
 	}
-	
-	public synchronized void addListener(PluginEventListener listener){
-		this.listener.add(listener);
+
+	/**
+	 * Adds a listener to this
+	 * 
+	 * @param listener
+	 *            the listener to add
+	 */
+	public synchronized void addListener(PluginEventListener listener) {
+		this.listeners.add(listener);
 	}
 }

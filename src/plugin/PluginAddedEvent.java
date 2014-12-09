@@ -4,10 +4,24 @@ import java.io.File;
 
 import plugin.Plugin;
 
+/**
+ * Class used to launch an event where a plugin is added
+ * @author Nabil Maiz
+ * @author Arnaud Cojez
+ */
 public class PluginAddedEvent implements Plugin {
+	
+	// Fields
+	
 	private File file;
 	protected Plugin instance;
 
+	// Methods
+	
+	/**
+	 * Constructor for the PluginAddedEvent class
+	 * @param file the plugin to load
+	 */
 	public PluginAddedEvent(File file) {
 		ClassLoader loader = new PluginLoader();
 		Class<?> plugin;
@@ -30,22 +44,41 @@ public class PluginAddedEvent implements Plugin {
 		}
 	}
 
+	/**
+	 * Returns the name of the file
+	 * @return the name of the file
+	 */
 	public String getFile() {
 		return file.getName();
 	}
 
+	/**
+	 * Returns a string transformed from s by the plugin
+	 * @return Returns a string transformed from s by the plugin
+	 */
 	public String transform(String s) {
 		return this.instance.transform(s);
 	}
 
+	/**
+	 * Returns the name of the plugin
+	 * @return the name of the plugin
+	 */
 	public String getLabel() {
 		return this.instance.getLabel();
 	}
 
+	/**
+	 * Returns the help message of the plugin
+	 * @return the help message of the plugin
+	 */
 	public String helpMessage() {
 		return this.instance.helpMessage();
 	}
 	
+	/**
+	 * Internal Class used to load a plugin
+	 */
 	public class PluginLoader extends ClassLoader {
 		
 	}

@@ -1,5 +1,6 @@
 /**
- * 
+ * @author Maiz Nabil
+ * @author Cojez Arnaud
  */
 package plugin;
 
@@ -8,51 +9,89 @@ import java.io.FilenameFilter;
 import java.lang.reflect.Constructor;
 
 /**
+ * Class used to say whether a plugin is acceptable or not
+ * 
  * @author Maiz Nabil
  * @author Cojez Arnaud
  */
 public class PluginFilter implements FilenameFilter {
 
-	/* 
+	/*
 	 * @see java.io.FilenameFilter#accept(java.io.File, java.lang.String)
 	 */
 	@Override
 	public boolean accept(File dir, String name) {
-		if(!fileExtensionIsClass(name)){
-		return false;
-		}
-		Class<?> theClass = getClass(dir,name);
-		if(theClass == null){
+		if (!fileExtensionIsClass(name)) {
 			return false;
 		}
-		
-		return inheritFromPlugin(theClass) && classInPluginPackage(theClass) && classHasParameterlessClassConstructor(theClass);
+		Class<?> theClass = getClass(name);
+		if (theClass == null) {
+			return false;
+		}
+
+		return inheritFromPlugin(theClass) && classInPluginPackage(theClass)
+				&& classHasParameterlessClassConstructor(theClass);
 	}
-	
-	protected boolean fileExtensionIsClass(String filename){
+
+	/**
+	 * Returns true is the file extension is ".class"
+	 * 
+	 * @param filename
+	 *            the filename to analyse
+	 * @return true is the file extension is ".class"
+	 */
+	protected boolean fileExtensionIsClass(String filename) {
 		return filename.endsWith(".class");
 	}
-	
-	protected Class<?> getClass(File dir,String filename){
+
+	/**
+	 * Returns the class of the plugin
+	 * 
+	 * @param filename
+	 *            the name of the file to analyse
+	 * @return the class of the plugin
+	 */
+	protected Class<?> getClass(String filename) {
 		String className = filename.replace("\\.class$", "");
-		try{
+		try {
 			return Class.forName("plugins" + className);
-		}catch(ClassNotFoundException e){
+		} catch (ClassNotFoundException e) {
 			return null;
 		}
 	}
-	
-	protected boolean inheritFromPlugin(Class<?> theClass){
+
+	/**
+	 * Returns true if theClass inherits from the plugin interface
+	 * 
+	 * @param theClass
+	 *            the class to analyse
+	 * @return true if theClass inherits from the plugin interface
+	 */
+	protected boolean inheritFromPlugin(Class<?> theClass) {
 		return Plugin.class.isAssignableFrom(theClass);
 	}
 
-	protected boolean classInPluginPackage (Class<?> theClass){
+	/**
+	 * Returns true if theClass is in the plugin package
+	 * 
+	 * @param theClass
+	 *            the class to analyse
+	 * @return true if theClass is in the plugin package
+	 */
+	protected boolean classInPluginPackage(Class<?> theClass) {
 		return theClass.getPackage().getName().equals("plugins");
-				}
-	
-	public boolean classHasParameterlessClassConstructor(Class<?> theClass){
-		for(Constructor<?> constructor: theClass.getConstructors()){
-			if(constructor.getParameterTypes().length == 0){
+	}
+
+	/**
+	 * Returns true if the constructor of the class takes no parameter
+	 * 
+	 * @param theClass
+	 *            the class to analyse
+	 * @return true if the constructor of the class takes no parameter
+	 */
+	public boolean classHasParameterlessClassConstructor(Class<?> theClass) {
+		for (Constructor<?> constructor : theClass.getConstructors()) {
+			if (constructor.getParameterTypes().length == 0) {
 				return true;
 			}
 		}
