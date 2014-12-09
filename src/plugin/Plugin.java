@@ -5,7 +5,8 @@ package plugin;
  * represents a plugin that can be dynamically added to the extendable editor.
  * A plugin can perform a transformation on a String.
  * A menu item corresponds to a a plugin in the editor. The label of this item is given by the <code>getLabel</code> method.
- * @author JC
+ * @author Arnaud Cojez
+ * @author Maiz Nabil
  */
 public interface Plugin {
 	/** the package name of plugins */
