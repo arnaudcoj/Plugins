@@ -35,7 +35,7 @@ public class Editor {
 	private File file;
 	private boolean saved;
 	private static final String VERSION = "eXditor 0.1.3";
-	private final File dropins = new File("./dropins");
+	private final File dropins = new File("./dropins/plugins");
 	private final PluginFinder finder = new PluginFinder(dropins);
 
 	// Methods

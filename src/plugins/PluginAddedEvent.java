@@ -12,8 +12,9 @@ public class PluginAddedEvent implements Plugin {
 				this.file = file;
 		Class<?> classTest;
 		try {
-			classTest = Class.forName("plugin."
+			classTest = Class.forName("plugins."
 					+ file.getName().replaceFirst("\\.class$", ""));
+			//classTest = Class.forName("plugins.ToLowerCase");
 			this.instance = (Plugin) classTest.newInstance();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
