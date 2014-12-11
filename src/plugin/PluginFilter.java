@@ -89,7 +89,7 @@ public class PluginFilter implements FilenameFilter {
 	 *            the class to analyse
 	 * @return true if the constructor of the class takes no parameter
 	 */
-	public boolean classHasParameterlessClassConstructor(Class<?> theClass) {
+	protected boolean classHasParameterlessClassConstructor(Class<?> theClass) {
 		for (Constructor<?> constructor : theClass.getConstructors()) {
 			if (constructor.getParameterTypes().length == 0) {
 				return true;

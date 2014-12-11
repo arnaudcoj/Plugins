@@ -41,7 +41,7 @@ public class ConfigurableTimer implements java.awt.event.ActionListener {
 	}
 
 	/**
-	 * Constructor for the ConfigurableTimer class There is no iterations limit
+	 * Constructor for the ConfigurableTimer class, there is no iterations limit
 	 * 
 	 * @param listener
 	 *            the listener we want to send a message to

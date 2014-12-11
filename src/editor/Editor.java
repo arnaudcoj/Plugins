@@ -33,13 +33,13 @@ import editor.component.ToolsMenu;
 public class Editor {
 
 	// Fields
-	private JFrame frame;
-	private TextArea textarea;
-	private File file;
-	private boolean saved;
-	private static final String VERSION = "eXditor 1.0";
-	private final File dropins = new File("./dropins/plugins");
-	private final PluginFinder finder = new PluginFinder(dropins);
+	protected JFrame frame;
+	protected TextArea textarea;
+	protected File file;
+	protected boolean saved;
+	protected static final String VERSION = "eXditor 1.0";
+	protected final File dropins = new File("./dropins/plugins");
+	protected final PluginFinder finder = new PluginFinder(dropins);
 
 	// Methods
 	
@@ -159,18 +159,24 @@ public class Editor {
 	}
 
 	/**
-	 * Opens an existing file and fills textArea with the content of this file
+	 * Chooses and opens an existing file and fills textArea with the content of this file
 	 */
 	public void open() {
 		this.chooseFile();
-		if (this.file != null) {
+		if (this.file != null)
+			this.loadFile();
+	}
+	
+	/**
+	 * Loads this.file in textArea if this.file isn't null
+	 */
+	public void loadFile() {
 			if (this.file.exists()) {
 				this.textarea.readFile(this.file);
 				this.saved = true;
+				this.updateTitle();
 			}
 		}
-		this.updateTitle();
-	}
 
 	/**
 	 * Chooses an existing file or creates one thanks to a FileChooser
